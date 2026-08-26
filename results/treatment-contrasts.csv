@@ -1,0 +1,6 @@
+"contrast","reads","high","low","n_blocks","estimate","ci_low","ci_high","t","df","p","p_holm"
+"nitrogen response (N2 against N0)","yield gained by applying nitrogen at the mid rate","N2P1K1","N0P1K1",34,3.611467259651,2.8489578871389,4.37397663216309,9.6360591107106,33,4.06267595554812e-11,2.03133797777406e-10
+"nitrogen response (N4 against N2)","further yield gained by raising nitrogen from the mid to the high rate","N4P1K1","N2P1K1",34,0.362005914603327,0.154242746744018,0.569769082462636,3.54493329407814,33,0.00119877748552497,0.00479510994209987
+"phosphorus omission (P1 against P0 at N2)","yield gained by applying phosphorus at a fixed nitrogen rate","N2P1K1","N2P0K1",34,0.190386891961939,-0.101685771290328,0.482459555214206,1.32619410463568,33,0.193881617797691,0.387763235595383
+"potassium omission (K1 against K0 at N2)","yield gained by applying potassium at a fixed nitrogen rate","N2P1K1","N2P1K0",34,-0.256507788905637,-0.474566248698432,-0.0384493291128417,-2.39325280449709,33,0.0225454463980926,0.0676363391942778
+"doubled phosphorus and potassium (N4P2K2 against N4P1K1)","yield gained by doubling phosphorus and potassium at the high nitrogen rate","N4P2K2","N4P1K1",34,0.0796045042455714,-0.0852296610554044,0.244438669546547,0.982542553224717,33,0.332981767025192,0.387763235595383

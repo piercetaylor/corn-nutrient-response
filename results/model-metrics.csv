@@ -1,0 +1,7 @@
+"model","role","n_predictors","predictors","n_test","rmse","mae","r2"
+"training mean","baseline",0,"",351,2.15374403013852,1.73336300491172,-0.148435029770916
+"linear model, agronomic predictors","predictive",12,"n_rate p_rate k_rate s_rate population irrigation_mm som_pct soil_ph bray_p_ppm olsen_p_ppm soil_k_ppm soil_no3n_ppm",351,2.00793566834462,1.68132544574539,0.0017993540524005
+"linear model, all admitted predictors","predictive",18,"n_rate p_rate k_rate s_rate population irrigation_mm latitude longitude year som_pct soil_ph bray_p_ppm olsen_p_ppm soil_k_ppm soil_no3n_ppm texture tillage prev_crop",351,1.80841590810152,1.40390459509389,0.190317234652432
+"random forest","predictive",18,"n_rate p_rate k_rate s_rate population irrigation_mm latitude longitude year som_pct soil_ph bray_p_ppm olsen_p_ppm soil_k_ppm soil_no3n_ppm texture tillage prev_crop",351,1.7819383906411,1.48972485485365,0.213853244003174
+"linear model with harvest measurements","illustration",20,"n_rate p_rate k_rate s_rate population irrigation_mm latitude longitude year som_pct soil_ph bray_p_ppm olsen_p_ppm soil_k_ppm soil_no3n_ppm texture tillage prev_crop total_dm harvest_index",351,0.357817925312429,0.259423595775067,0.968301227557226
+"random forest, plot-level split","illustration",18,"n_rate p_rate k_rate s_rate population irrigation_mm latitude longitude year som_pct soil_ph bray_p_ppm olsen_p_ppm soil_k_ppm soil_no3n_ppm texture tillage prev_crop",363,1.15128988248787,0.855210467328944,0.726528095367545

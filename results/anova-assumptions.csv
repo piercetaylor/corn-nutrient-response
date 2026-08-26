@@ -1,0 +1,4 @@
+"test","statistic","p"
+"Shapiro-Wilk on residuals",0.97477877323459,1.06825273768252e-13
+"Brown-Forsythe across treatment",5.75565497450435,3.23166278001819e-07
+"Brown-Forsythe across block",2.31960373488308,3.97036024996839e-05

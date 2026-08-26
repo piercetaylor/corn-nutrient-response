@@ -1,0 +1,11 @@
+"variable","level","site_years"
+"texture","lS",6
+"texture","siCL",6
+"texture","siL",17
+"texture","sL",5
+"tillage","CT",14
+"tillage","NT",11
+"tillage","RT",9
+"prev_crop","corn",13
+"prev_crop","drybean",5
+"prev_crop","soybean",16
