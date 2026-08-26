@@ -1,0 +1,298 @@
+---
+title: "Nutrient response in high-yielding Nebraska corn"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      comment = "")
+options(knitr.table.format = "pipe", knitr.kable.NA = "")
+```
+
+```{r load}
+source(file.path("R", "99_utils.R"))
+m <- read_metrics()
+n <- function(k, digits = 2) formatC(metric_num(m, k), format = "f",
+                                     digits = digits)
+pct <- function(k, digits = 0) formatC(100 * metric_num(m, k), format = "f",
+                                       digits = digits)
+sci <- function(k, digits = 2) formatC(metric_num(m, k), format = "e",
+                                       digits = digits)
+tbl <- function(name) utils::read.csv(file.path("results",
+                                                paste0(name, ".csv")),
+                                      check.names = FALSE)
+kab <- function(x, ...) knitr::kable(x, row.names = FALSE, ...)
+# p-values here span 165 orders of magnitude, so they are rendered in
+# scientific notation rather than rounded to a column of zeros.
+fmt_p <- function(p) formatC(p, format = "e", digits = 2)
+```
+
+This report presents the results written by `analysis/run_all.R`. It reads the
+recorded quantities in `results/` rather than recomputing them, so that the
+numbers here and the numbers a gate checks are the same numbers. The analysis
+code lives in `R/`; this file calls into it and interprets what it produced.
+The seed is `r format(metric_num(m, "seed"), scientific = FALSE)`.
+
+## The experiment
+
+The deposit holds `r n("data_rows", 0)` plot observations from
+`r n("site_years", 0)` site-years of corn trials run in Nebraska between 2002
+and 2004. Nine standard treatments were applied at every site-year, giving
+`r n("standard_rows", 0)` plots in `r n("design_cells", 0)` design cells with
+`r n("design_min_reps", 0)` to `r n("design_max_reps", 0)` replicate plots each
+and no cell empty. The remaining `r n("excluded_rows", 0)` plots belong to
+site-specific sub-trials present at between one and seven site-years, and are
+excluded from every comparison below. Every site-year was irrigated, at rates
+between `r n("irrigation_min_mm", 0)` and `r n("irrigation_max_mm", 0)` mm.
+
+The nine treatments vary nitrogen across five rates and, at a fixed nitrogen
+rate, omit phosphorus or potassium. That structure is what makes the phosphorus
+and potassium questions answerable: the omission plots differ from the complete
+treatment in one nutrient and nothing else.
+
+```{r treatments}
+ts <- tbl("treatment-summary")
+names(ts) <- c("treatment", "plots", "site-years", "N", "P", "K", "S",
+               "mean yield", "sd", "se")
+kab(ts, digits = c(0, 0, 0, 1, 1, 1, 1, 2, 2, 3),
+    caption = "Applied rates in kg/ha and grain yield in Mg/ha.")
+```
+
+![Grain yield by treatment](../figures/fig01_yield_by_treatment.png)
+
+## Where the variation lies
+
+Mean grain yield over the standard plots is `r n("mean_yield")` Mg/ha with a
+standard deviation of `r n("sd_yield")` Mg/ha, ranging from `r n("min_yield")`
+to `r n("max_yield")` Mg/ha. Differences between site-years account for
+`r pct("between_block_share_yield")` percent of the plot-level sum of squares.
+A Nebraska field in a given season is therefore the largest single influence on
+what a plot yields, which is why every comparison below is made within
+site-years rather than across them.
+
+![Distribution of plot yield](../figures/fig02_yield_distribution.png)
+
+![The 34 site-years](../figures/fig05_site_years.png)
+
+## Correlation structure, and where it misleads
+
+The plant measurements are strongly redundant. Nutrient uptake is a tissue
+concentration multiplied by a dry-matter mass that includes grain, and the
+harvest indices are ratios among those same masses.
+
+![Correlation among plant measurements](../figures/fig03_plant_correlations.png)
+
+Pooled across all plots, grain yield and nitrogen uptake correlate at
+`r n("pooled_r_yield_n_uptake")`. That coefficient survives disaggregation: the
+weakest within-texture coefficient is
+`r n("min_within_texture_r_yield_n_uptake")`, and within site-years the median
+is `r n("median_within_block_r_yield_n_uptake")` with a minimum of
+`r n("min_within_block_r_yield_n_uptake")`. No sign reverses, so the pooled
+figure is not an aggregation artefact.
+
+![Yield against nitrogen uptake by texture](../figures/fig04_yield_vs_n_uptake_by_texture.png)
+
+Plant population behaves differently. Pooled, yield and population correlate at
+`r n("pooled_r_yield_population")`; within site-years the coefficient falls as
+low as `r n("min_within_block_r_yield_population")` and reverses sign in
+`r n("population_sign_reversals_within_block", 0)` of the
+`r n("standard_site_years", 0)` site-years. The pooled association largely
+records that the fields planted at higher densities were the fields that yielded
+more for other reasons, not that raising density within a field raised yield.
+This is the one place in the data where a pooled correlation would have been
+read wrongly.
+
+```{r simpson}
+sc <- tbl("subgroup-correlations")
+sc <- sc[sc$grouping == "block", c("x", "y", "pooled_r", "n_groups",
+                                   "min_within_r", "median_within_r",
+                                   "max_within_r", "n_sign_reversals")]
+names(sc) <- c("x", "y", "pooled r", "site-years", "min within",
+               "median within", "max within", "sign reversals")
+kab(sc, digits = 3,
+    caption = "Pooled against within-site-year correlations with grain yield.")
+```
+
+## Dimension reduction
+
+Principal components were fitted on the `r n("pca_n_vars", 0)` standardised
+plant measurements, using the `r n("split_train_site_years", 0)` training
+site-years only. Kaiser's criterion retains `r n("pca_n_retained", 0)`
+components, accounting for `r pct("pca_variance_retained")` percent of total
+variance; the first accounts for `r pct("pca_pc1_proportion")` percent and the
+second for `r pct("pca_pc2_proportion")` percent.
+
+![Component eigenvalues](../figures/fig07_pca_scree.png)
+
+```{r loadings}
+kab(tbl("pca-loadings"), digits = 3,
+    caption = "Loadings on the retained components.")
+```
+
+![Plots in the first two components](../figures/fig08_pca_scores.png)
+
+The components describe the redundancy among harvest measurements. They are not
+used to predict yield, because grain yield is an algebraic component of several
+of the variables they are built from.
+
+## Clustering
+
+The number of clusters was chosen by majority rule across the indices NbClust
+computes, not fixed in advance: `r n("kmeans_index_votes", 0)` of
+`r n("kmeans_indices_reporting", 0)` indices selected
+k = `r n("kmeans_k", 0)`. The resulting partition accounts for
+`r pct("kmeans_between_share")` percent of the total sum of squares.
+
+```{r clusters}
+kab(tbl("cluster-correspondence"), digits = 3,
+    caption = "Association between cluster membership and candidate explanations.")
+```
+
+Cluster membership tracks site-year (Cramer's V
+`r n("cramers_v_cluster_site_yr")`) far more closely than treatment
+(`r n("cramers_v_cluster_treatment")`). The clusters recover which field a plot
+was in, not what was applied to it.
+
+![Clusters against field position](../figures/fig09_clusters.png)
+
+## Treatment effects
+
+The design is a randomised complete block with site-year as the block.
+
+```{r anova}
+av <- tbl("anova-rcb")
+av$p <- ifelse(is.na(av$p), "", fmt_p(av$p))
+av$f <- ifelse(is.na(av$f), "", formatC(av$f, format = "f", digits = 1))
+kab(av, digits = c(0, 0, 1, 2, 0, 0),
+    caption = "Analysis of variance on grain yield, blocked on site-year.")
+```
+
+Treatment affects yield (F = `r n("anova_treatment_f", 1)`,
+p = `r sci("anova_treatment_p")`), as does site-year
+(F = `r n("anova_block_f", 1)`). A multivariate test on grain yield, total dry
+matter, ear number and nitrogen uptake jointly agrees (Pillai's trace
+`r n("manova_treatment_pillai", 3)`, p = `r sci("manova_treatment_p")`).
+
+The five pre-specified contrasts are estimated as paired differences of
+site-year means across all `r n("standard_site_years", 0)` blocks, so that the
+unit of inference is the site-year and not the plot.
+
+```{r contrasts}
+ct <- tbl("treatment-contrasts")
+out <- data.frame(contrast = ct$contrast,
+                  estimate = round(ct$estimate, 3),
+                  `ci low` = round(ct$ci_low, 3),
+                  `ci high` = round(ct$ci_high, 3),
+                  p = fmt_p(ct$p), `p holm` = fmt_p(ct$p_holm),
+                  check.names = FALSE)
+kab(out,
+    caption = "Paired contrasts on grain yield, Mg/ha, with 95 percent intervals.")
+```
+
+![Treatment contrasts](../figures/fig10_treatment_contrasts.png)
+
+Applying nitrogen at the mid rate raised yield by
+`r n("contrast_n0p1k1_to_n2p1k1_estimate")` Mg/ha
+(95 percent interval `r n("contrast_n0p1k1_to_n2p1k1_ci_low")` to
+`r n("contrast_n0p1k1_to_n2p1k1_ci_high")`). Raising nitrogen further to the
+high rate added `r n("contrast_n2p1k1_to_n4p1k1_estimate")` Mg/ha
+(`r n("contrast_n2p1k1_to_n4p1k1_ci_low")` to
+`r n("contrast_n2p1k1_to_n4p1k1_ci_high")`).
+
+Omitting phosphorus at a fixed nitrogen rate cost
+`r n("contrast_n2p0k1_to_n2p1k1_estimate")` Mg/ha, with an interval from
+`r n("contrast_n2p0k1_to_n2p1k1_ci_low")` to
+`r n("contrast_n2p0k1_to_n2p1k1_ci_high")` that includes zero. Omitting
+potassium changed yield by
+`r n("contrast_n2p1k0_to_n2p1k1_estimate")` Mg/ha, and doubling both phosphorus
+and potassium at the high nitrogen rate changed it by
+`r n("contrast_n4p1k1_to_n4p2k2_estimate")` Mg/ha
+(`r n("contrast_n4p1k1_to_n4p2k2_ci_low")` to
+`r n("contrast_n4p1k1_to_n4p2k2_ci_high")`). At these soil test levels and
+yields, none of the three intervals admits a phosphorus or potassium response
+larger than about half a megagram per hectare.
+
+### Assumptions
+
+```{r assumptions}
+kab(tbl("anova-assumptions"), digits = 4,
+    caption = "Assumption tests for the plot-level analysis of variance.")
+```
+
+Both assumptions of the plot-level analysis of variance are violated. Residuals
+depart from normality (W = `r n("shapiro_statistic", 4)`,
+p = `r sci("shapiro_p")`) and variances differ across treatments
+(p = `r sci("brown_forsythe_treatment_p")`), which is expected when one
+treatment withholds nitrogen and yields both lower and more variably than the
+rest. The F test is reported because it is robust at this sample size, but it is
+not what the conclusions rest on.
+
+```{r contrast-normality}
+kab(tbl("contrast-normality"), digits = 4,
+    caption = "Normality of the block differences the paired contrasts use.")
+```
+
+The paired contrasts require only that the
+`r n("standard_site_years", 0)` block differences are approximately normal, and
+they are: the smallest p across the five contrasts is
+`r n("contrast_differences_min_shapiro_p", 3)`.
+
+## Predicting yield on an unfamiliar field
+
+A predictor was admitted only if its value is set or measurable before harvest.
+That leaves `r n("n_allowed_predictors", 0)` predictors and excludes
+`r n("n_blocked_predictors", 0)` harvest measurements. The exclusion is
+arithmetic rather than cautious: total dry matter is the sum of grain, cob and
+stover dry matter, an identity this data set satisfies to a maximum relative
+error of `r sci("identity_max_error_dm")`, and harvest index is grain dry matter
+divided by that sum.
+
+Partitions are formed over site-years. A model is trained on
+`r n("split_train_site_years", 0)` site-years and tested on the
+`r n("split_test_rows", 0)` plots of the `r n("split_test_site_years", 0)` it
+has never seen.
+
+```{r models}
+mm <- tbl("model-metrics")
+kab(mm[, c("model", "role", "n_predictors", "n_test", "rmse", "mae", "r2")],
+    digits = c(0, 0, 0, 0, 3, 3, 3),
+    caption = "Accuracy on held-out site-years. RMSE and MAE in Mg/ha.")
+```
+
+Because a single ten-site-year test set is a noisy basis for that claim, the
+comparison is repeated leaving out one site-year at a time, so that every
+site-year serves as an unfamiliar field exactly once.
+
+```{r cv}
+kab(tbl("cross-validation"), digits = c(0, 0, 0, 3, 3, 3),
+    caption = "Leave-one-site-year-out cross-validation over all 34 site-years.")
+```
+
+The random forest reaches RMSE `r n("cv_rf_rmse", 3)` Mg/ha and an R-squared of
+`r n("cv_rf_r2", 3)`, against `r n("cv_mean_rmse", 3)` Mg/ha for predicting the
+training mean. Roughly a fifth of plot-level yield variation is recoverable from
+applied rates, plant stand, irrigation and a pre-season soil test. The rest
+belongs to the field and the season.
+
+![Predicted against observed](../figures/fig11_observed_vs_predicted.png)
+
+![Variable importance](../figures/fig12_variable_importance.png)
+
+### Two ways this number could have been inflated
+
+Admitting harvest measurements as predictors raises the held-out R-squared from
+`r n("rf_test_r2", 3)` to `r n("leakage_test_r2", 3)`. Almost all of that is the
+identity above, reported back as accuracy.
+
+Splitting over plots rather than site-years raises the held-out R-squared of the
+same random forest from `r n("rf_test_r2", 3)` to
+`r n("plot_split_rf_test_r2", 3)`. Replicate plots from one field in one season
+are near-duplicates, and a plot-level split leaves copies of the test plots in
+the training set. Both figures are reported in the table above as illustrations,
+not as results.
+
+## Session
+
+```{r session}
+cat(paste(readLines(file.path("results", "session-info.txt")), collapse = "\n"))
+```
