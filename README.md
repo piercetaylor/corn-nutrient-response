@@ -44,6 +44,18 @@ metadata. That digest, `62262f92…d2df`, is recorded in `data/checksums.txt` an
 re-verified on every run, so the file being analysed can be shown to be the file
 that was deposited rather than a local copy of unknown history.
 
+One correction is applied to the deposit as recorded. The soil texture class is
+spelled both `lS` and `ls`, the latter at a single site-year. That site-year,
+Spurgin in 2004, lies on the Vetal soil series, which carries the `lS` label at
+Paxton in 2002 and 2003. The deposit also capitalises the noun and leaves the
+modifier in lower case, giving `siCL`, `siL` and `sL` for silty clay loam, silt
+loam and sandy loam, so `lS` reads as loamy sand and `ls` departs from the
+convention in case alone. Loamy silt is not a USDA texture class and would in
+any case be written `lSi`. The two spellings are therefore treated as one class,
+affecting 37 plots, and the count is carried through the pipeline as an
+attribute so that the correction appears in the record rather than passing
+silently.
+
 ## What was found
 
 Grain yield averaged 13.85 Mg/ha across the 1211 standard plots, with a standard

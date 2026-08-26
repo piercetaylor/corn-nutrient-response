@@ -139,12 +139,23 @@ build_analysis_frame <- function(plot_df, site_df) {
   }
   d <- d[, !names(d) %in% c("texture_ref", "tillage_ref", "prev_crop_ref")]
 
-  # The deposit records the loamy sand texture class as both "lS" and "ls". The
-  # single site-year spelled "ls" (Spurgin, 2004) is on the Vetal soil series,
-  # which also carries the "lS" label at Paxton in 2002 and 2003, so the two
-  # spellings denote one class. They are merged onto the dominant spelling and
-  # the number of plots affected is returned as an attribute, so that the
-  # correction is visible in the record rather than silent.
+  # The deposit records the loamy sand texture class as both "lS" and "ls".
+  # Three lines of evidence establish that these denote one class:
+  #
+  #   1. The single site-year spelled "ls" (Spurgin, 2004) is on the Vetal soil
+  #      series, which also carries the "lS" label at Paxton in 2002 and 2003.
+  #   2. The deposit capitalises the noun and leaves the modifier lower case,
+  #      giving "siCL" for silty clay loam, "siL" for silt loam and "sL" for
+  #      sandy loam. Under that convention "lS" is loamy sand, and "ls" departs
+  #      from it in case alone.
+  #   3. Loamy silt, the competing reading, is not a USDA texture class, and
+  #      under the convention above would be written "lSi" in any event. Vetal
+  #      is a coarse-textured series, consistent with loamy sand and not with a
+  #      silt-dominated class.
+  #
+  # The spellings are merged onto the dominant form and the number of plots
+  # affected is returned as an attribute, so the correction is visible in the
+  # record rather than silent.
   texture_chr <- trimws(as.character(d$texture))
   n_recoded <- sum(texture_chr == "ls")
   texture_chr[texture_chr == "ls"] <- "lS"
