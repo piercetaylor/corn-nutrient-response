@@ -1,0 +1,162 @@
+Year
+Site-yr
+Site-no
+Site
+Soil
+Texture
+prevCrop
+Till
+Treatment
+Treat-no
+Plot
+Rep
+lbsN
+FN
+lbsP2O5
+FP
+lbsK20
+FK
+lbsS
+FS
+POP ha
+POP ac
+GY bu
+GY Mg
+GDM
+CDM
+VDM
+TDM
+cobHi
+HI
+EARS
+BARR
+PROL
+KERNE
+KERNm
+HSW
+gUN
+cUN
+vUN
+UN
+NHI
+gUP
+cUP
+vUP
+UP
+PHI
+gUK
+cUK
+vUK
+UK
+KHI
+gUCa
+cUCa
+vUCa
+UCa
+CaHI
+gUMg
+cUMg
+vUMg
+UMg
+MgHI
+gUS
+cUS
+vUS
+US
+SHI
+gN
+gP
+gK
+gCa
+gMg
+gS
+cN
+cP
+cK
+cCa
+cMg
+cS
+vN
+vP
+vK
+vCa
+vMg
+vS
+SOM 0-4
+SOM 4-8
+SOM 0-8
+SOM 8-16
+pH 0-4
+pH 4-8
+pH 0-8
+pH 8-16
+bpH 0-4
+bpH 4-8
+bpH 0-8
+bpH 8-16
+Bray-P 0-4
+Bray-P 4-8
+Bray-P 0-8
+Bray-P 8-16
+cumBray-P8
+cumBray-P16
+Olsen-P 0-4
+Olsen-P 4-8
+Olsen-P 0-8
+Olsen-P 8-16
+cumOls-P8
+cumOls-P16
+K 0-4
+K 4-8
+K 0-8
+K 8-16
+cumK8
+cumK16
+NO3-12S
+NO3-24S
+NO3-36S
+NO3-48S
+avgNO3-S2ft
+avgNO3-S3ft
+avgNO3-S4ft
+cumNO3-S
+NO3-12F
+NO3-24F
+NO3-36F
+NO3-48F
+avgNO3-F
+cumNO3-F
+PSNT
+Amino-N 0-6
+Amino-N 6-12
+SO4-S12
+SO4-S24
+SO4-S36
+avgSO4-S
+cumSO4-S
+Zn 0-4
+Zn 4-8
+Zn 0-8
+Fe 0-4
+Fe 4-8
+Fe 0-8
+Mn 0-4
+Mn 4-8
+Mn 0-8
+Cu 0-4
+Cu 4-8
+Cu 0-8
+S 0-4
+S 4-8
+S 0-8
+BD 0-8
+irrigN
+
+
+Pes&f
+cumNO3-F
+HI
+NHI
+UN
+GNc
+GY

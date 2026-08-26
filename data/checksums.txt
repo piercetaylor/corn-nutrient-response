@@ -1,0 +1,6 @@
+# SHA-256 of the file deposited at Data Dryad under doi:10.5061/dryad.p30c6.
+# The same digest is published by Dryad in its file metadata at
+# https://datadryad.org/api/v2/versions/102941/files, so this expectation can be
+# checked against the repository of record. Verified by .checks/gate_01_acquisition.R
+# on every run. Format is sha256sum-compatible.
+62262f92257fa26f7927fa2ad5bbeaf9f026d7ab96fbfdb7834ad2dcf185d2df  Nebr_HiYieldCornNPKS_Feb_2021.xls

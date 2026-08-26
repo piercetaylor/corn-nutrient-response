@@ -1,0 +1,37 @@
+Year
+Site-yr
+Site
+Latitude
+Longitude
+Soil
+Texture
+prev. Crop
+Till
+SOM (%)
+pH
+Br.P (ppm)
+Ols.P (ppm)
+K (ppm)
+NO3-N (ppm)
+0-N yield
+0P yield
+0-K yield
+max. yield
+Irr. Dates
+Irrig. Amount
+Water analysis
+Irrigation in
+Irrigation mm
+Water N ppm
+IrrN kgN/ha
+IrrN lb/ac
+Hybrid
+CRM
+GDDsilk
+GDDmat
+Planting
+VE
+R1
+R6
+1000 pl./ac
+Notes
