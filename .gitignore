@@ -1,0 +1,28 @@
+# Local development aids, not deliverables.
+.checks/
+
+# Raw data is redistributed by Data Dryad, not by this repository.
+# data/download_data.R and data/checksums.txt are the reproducible substitute.
+data/raw/
+
+# R session state
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+.Rapp.history
+
+# renv keeps its library out of version control; renv.lock is the pinned record.
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/sandbox/
+renv/staging/
+
+# Large or transient intermediates
+data/interim/
+*.rds
+*.zip
+*.log
