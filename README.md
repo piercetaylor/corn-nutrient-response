@@ -1,3 +1,4 @@
+
 # Corn nutrient response in Nebraska
 
 A multivariate re-analysis of a 34 site-year field trial on the response of
@@ -11,13 +12,14 @@ their own right.
 
 ## The question
 
-Corn yielding fourteen megagrams per hectare removes a great deal of phosphorus,
-potassium and sulfur from the soil each season. Whether replacing those nutrients
-raises yield is a different question from whether the crop contains them, and it
-is the question a grower has to answer. This analysis asks what grain yield gains
-from applied phosphorus and potassium once nitrogen supply, plant stand and water
-are accounted for, and how much of the variation in yield is attributable to
-treatment at all rather than to the field and the season.
+A corn crop yielding fourteen megagrams per hectare removes a substantial
+quantity of phosphorus, potassium and sulfur from the soil each season. Whether
+replacing those nutrients raises yield is a separate question from whether the
+crop contains them, and it is the question a grower actually has to answer.
+This analysis estimates how much yield gains from applied phosphorus and
+potassium once nitrogen supply, plant stand and water are accounted for, and it
+asks how much of the variation in yield is attributable to treatment at all
+rather than to the field and the season.
 
 ## The data
 
@@ -83,12 +85,19 @@ treatment. K-means clustering, with the count fixed at three by majority rule
 across 24 NbClust indices, produces clusters that track site-year (Cramer's V
 0.67) far more closely than treatment (0.30).
 
-Predicting yield for a field the model has never seen, from information available
-before harvest and leaving out one site-year at a time, a random forest reaches
-RMSE 1.95 Mg/ha and an R-squared of 0.22 against 2.24 Mg/ha for predicting the
-training mean. About a fifth of plot-level yield variation is recoverable from
-applied rates, plant stand, irrigation and a pre-season soil test; the rest
-belongs to the field and the season.
+Prediction reaches the same ceiling. A random forest given only information
+available before harvest, and validated by leaving out one site-year at a time,
+reaches RMSE 1.95 Mg/ha and an R-squared of 0.22, against 2.24 Mg/ha for
+predicting the training mean. About a fifth of plot-level yield variation is
+therefore recoverable from applied rates, plant stand, irrigation and a
+pre-season soil test. The remainder belongs to the field and the season.
+
+Two limitations bear on how far these results generalise. The retained
+principal components are difficult to map back onto individual measurements, so
+they describe the data better than they guide a fertiliser decision. The
+predictors also carry measurement error of their own, since soil texture class
+is a field judgement rather than a laboratory determination, and this deposit
+records one texture class under two spellings.
 
 `docs/writeup.md` states the findings in full. `analysis/report.md` carries the
 tables, figures and interpretation.
@@ -105,9 +114,13 @@ Rscript analysis/run_all.R        # run the pipeline; writes figures/ and result
 Rscript -e 'knitr::knit("analysis/report.Rmd", output = "analysis/report.md")'
 ```
 
-The pipeline takes about 45 seconds and is seeded at 20250317. Every number in
-this README and in `docs/writeup.md` is read out of `results/metrics.csv`, which
-the pipeline writes; none is transcribed from an earlier analysis.
+The pipeline completes in one to three minutes depending on machine load, and it
+is seeded at 20250317. Every measured
+quantity reported in this README and in `docs/writeup.md` is read out of
+`results/metrics.csv`, which the pipeline writes, and none of it is transcribed
+from an earlier analysis. The few remaining figures are counts of the repository
+itself rather than results, namely the 46 packages recorded in `renv.lock` and
+the 128 quantities held in `results/metrics.csv`.
 
 ## Layout
 
