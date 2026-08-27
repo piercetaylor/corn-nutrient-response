@@ -22,8 +22,8 @@ that phosphorus application is profitable when Bray-1 soil test phosphorus is
 below roughly 10 ppm, or Olsen phosphorus below roughly 7 ppm, and that corn
 response to applied potassium is unlikely above 125 ppm soil test potassium.
 Those thresholds are the reference point against which the null results in this
-project are interpreted. The paper is under journal copyright and is cited here
-rather than redistributed.
+project are interpreted. The paper is under journal copyright and is cited here,
+not redistributed.
 
 ## Methods
 
