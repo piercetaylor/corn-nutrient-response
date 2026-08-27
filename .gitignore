@@ -26,3 +26,9 @@ data/interim/
 *.rds
 *.zip
 *.log
+
+# Planning and audit records kept locally, not part of the deliverable.
+docs/project-plan.md
+docs/todo.md
+docs/execution-log.md
+docs/figure-plan.md
